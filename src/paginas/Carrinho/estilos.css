@@ -1,0 +1,165 @@
+/* Container principal do carrinho */
+.carrinho {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.carrinho h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+.carrinho__lista {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 16px;
+}
+
+.carrinho__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carrinho__nome {
+  font-weight: bold;
+  color: #222;
+}
+
+.carrinho__quantidade-preco {
+  color: #555;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.carrinho__subtotal {
+  color: #16803c;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.carrinho__controles {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.carrinho__item button {
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.carrinho__botao-quantidade {
+  width: 40px;
+  height: 40px;
+  background-color: #2563eb;
+  color: #fff;
+  font-size: 20px;
+}
+
+.carrinho__botao-quantidade:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.carrinho__botao-quantidade:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.carrinho__botao-remover {
+  min-height: 40px;
+  padding: 0 12px;
+  background-color: #b91c1c;
+  color: #fff;
+}
+
+.carrinho__botao-remover:hover {
+  background-color: #991b1b;
+}
+
+.carrinho__resumo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  max-width: 800px;
+  margin: 20px auto 0;
+  padding: 16px;
+  border-radius: 12px;
+  background: #16803c;
+  color: #fff;
+  font-size: 20px;
+}
+
+.carrinho__total {
+  margin-left: auto;
+}
+
+.carrinho__botao-whatsapp {
+  display: block;
+  max-width: 800px;
+  width: 100%;
+  margin: 16px auto 0;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 8px;
+  background-color: #16803c;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.carrinho__botao-whatsapp:hover {
+  background-color: #126b32;
+}
+
+.carrinho > p {
+  text-align: center;
+  padding: 24px;
+  color: #555;
+  font-size: 18px;
+}
+
+@media (max-width: 600px) {
+  .carrinho {
+    padding: 20px;
+  }
+
+  .carrinho__item {
+    grid-template-columns: 1fr auto;
+  }
+
+  .carrinho__quantidade-preco,
+  .carrinho__subtotal {
+    grid-column: 1 / -1;
+  }
+
+  .carrinho__controles {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .carrinho__resumo {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .carrinho__total {
+    margin-left: 0;
+  }
+}

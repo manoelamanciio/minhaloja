@@ -1,0 +1,63 @@
+
+
+/* Container principal da loja */
+.loja {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.loja h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+/* Grade responsiva dos produtos */
+.grade-produtos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* Mensagens de carregamento e erro */
+.mensagem {
+  text-align: center;
+  padding: 24px;
+  font-size: 18px;
+  color: #555;
+}
+
+.mensagem.erro {
+  color: #dc2626;
+}
+
+/* Celulares: 1 coluna */
+@media (min-width: 480px) {
+  .loja {
+    padding: 20px;
+  }
+}
+
+/* Tablets: 2 colunas */
+@media (min-width: 600px) {
+  .grade-produtos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Desktops: 3 colunas */
+@media (min-width: 900px) {
+  .grade-produtos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Telas grandes: 4 colunas */
+@media (min-width: 1200px) {
+  .grade-produtos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
