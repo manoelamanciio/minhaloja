@@ -27,6 +27,10 @@ function NaoEncontrado() {
 
 export default function App() {
   const [itensCarrinho, setItensCarrinho] = useState([]);
+  const quantidadeItensCarrinho = itensCarrinho.reduce(
+    (total, item) => total + (Number(item.quantidade) || 0),
+    0,
+  );
 
   const adicionarAoCarrinho = (produto) => {
     const estoque = Number(produto.stock);
@@ -75,7 +79,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <MenuNavegacao />
+      <MenuNavegacao quantidadeItens={quantidadeItensCarrinho} />
       <header>
         <nav>
           <Link to="/">Loja</Link>{" | "}
