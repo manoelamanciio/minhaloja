@@ -25,7 +25,7 @@
 
 .produto-detalhe__imagem img {
   width: 100%;
-  max-height: 420px;
+  max-height: 520px;
   border-radius: 12px;
   object-fit: cover;
 }

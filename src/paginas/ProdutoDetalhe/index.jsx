@@ -17,7 +17,13 @@ function ProdutoDetalhe({ onComprar, itensCarrinho = [] }) {
       setErro("");
       try {
         const resposta = await fetch(`${API_URL}/${id}`, { signal: controller.signal });
-        if (!resposta.ok) throw new Error("Produto não encontrado.");
+        if (resposta.status === 404) {
+          setErro("Produto não encontrado");
+          setProduto(null);
+          setCarregando(false);
+          return;
+        }
+        if (!resposta.ok) throw new Error("Não foi possível carregar este produto.");
         setProduto(await resposta.json());
       } catch (error) {
         if (error.name !== "AbortError") setErro("Não foi possível carregar este produto.");

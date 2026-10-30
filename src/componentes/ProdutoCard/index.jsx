@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./ProdutoCard.css";
 
 const ProdutoCard = ({ produto, onComprar, quantidadeNoCarrinho = 0 }) => {
+  const navigate = useNavigate();
   const temPromocao = Number.isFinite(produto.promoPrice);
   const precoEfetivo = temPromocao ? produto.promoPrice : produto.price;
   const estoque = Number(produto.stock);
@@ -24,7 +25,19 @@ const ProdutoCard = ({ produto, onComprar, quantidadeNoCarrinho = 0 }) => {
   };
 
   return (
-    <div className="produto-card">
+    <div
+      className="produto-card"
+      role="link"
+      tabIndex={0}
+      aria-label={`Ver detalhes de ${produto.name}`}
+      onClick={() => navigate(`/produtos/${produto.id}`)}
+      onKeyDown={(evento) => {
+        if (evento.key === "Enter" || evento.key === " ") {
+          evento.preventDefault();
+          navigate(`/produtos/${produto.id}`);
+        }
+      }}
+    >
       {esgotado && (
         <span className="produto-card__selo-esgotado">Esgotado</span>
       )}
@@ -47,7 +60,10 @@ const ProdutoCard = ({ produto, onComprar, quantidadeNoCarrinho = 0 }) => {
         </div>
         <button
           className="produto-card__botao"
-          onClick={comprar}
+          onClick={(evento) => {
+            evento.stopPropagation();
+            comprar();
+          }}
           type="button"
           disabled={!disponivel}
         >
