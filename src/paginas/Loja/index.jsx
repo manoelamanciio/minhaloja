@@ -1,10 +1,8 @@
-
-
 import { useEffect, useState } from "react";
 import ProdutoCard from "../../componentes/ProdutoCard";
 import "./estilos.css";
 
-const API_URL = "http://localhost:3000/products";
+const API_URL = "/db.json";
 
 function Loja({ onComprar, itensCarrinho = [] }) {
   const [produtos, setProdutos] = useState([]);
@@ -27,7 +25,7 @@ function Loja({ onComprar, itensCarrinho = [] }) {
         }
 
         const dados = await resposta.json();
-        setProdutos(Array.isArray(dados) ? dados : []);
+        setProdutos(Array.isArray(dados.products) ? dados.products : []);
       } catch (error) {
         if (error.name !== "AbortError") {
           setErro("Não foi possível carregar os produtos.");
