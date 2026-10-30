@@ -10,6 +10,7 @@ import Loja from './paginas/Loja';
 import Carrinho from './paginas/Carrinho';
 import Admin from './paginas/Admin';
 import NovoProduto from './paginas/Admin/NovoProduto';
+import EditarProduto from './paginas/Admin/EditarProduto';
 import MenuNavegacao from "./componentes/ProdutoCard/MenuNavegacao";
 import { useState } from "react";
 
@@ -129,10 +130,7 @@ export default function App() {
         <Route path="/admin/novo" element={<NovoProduto />} />
 
         {/* Edição de produto */}
-        <Route
-          path="/admin/:id/editar"
-          element={<PaginaProvisoria titulo="Editar produto" />}
-        />
+        <Route path="/admin/:id/editar" element={<EditarProduto />} />
 
         {/* Qualquer rota não definida */}
         <Route path="*" element={<NaoEncontrado />} />
