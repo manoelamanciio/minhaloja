@@ -11,12 +11,9 @@ import Carrinho from './paginas/Carrinho';
 import Admin from './paginas/Admin';
 import NovoProduto from './paginas/Admin/NovoProduto';
 import EditarProduto from './paginas/Admin/EditarProduto';
+import ProdutoDetalhe from './paginas/ProdutoDetalhe';
 import MenuNavegacao from "./componentes/ProdutoCard/MenuNavegacao";
 import { useState } from "react";
-
-function PaginaProvisoria({ titulo }) {
-  return <h1>{titulo}</h1>;
-}
 
 function NaoEncontrado() {
   return (
@@ -107,7 +104,12 @@ export default function App() {
         {/* Detalhes do produto */}
         <Route
           path="/produtos/:id"
-          element={<PaginaProvisoria titulo="Detalhes do produto" />}
+          element={
+            <ProdutoDetalhe
+              onComprar={adicionarAoCarrinho}
+              itensCarrinho={itensCarrinho}
+            />
+          }
         />
 
         {/* Carrinho */}

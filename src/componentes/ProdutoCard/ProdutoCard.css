@@ -8,6 +8,19 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.produto-card__detalhe {
+  display: block;
+}
+
+.produto-info h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.produto-info h2 a:hover {
+  color: #2563eb;
+}
+
 .produto-card__selo-esgotado {
   position: absolute;
   top: 12px;

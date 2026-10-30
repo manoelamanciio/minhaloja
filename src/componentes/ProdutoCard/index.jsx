@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./ProdutoCard.css";
 
 const ProdutoCard = ({ produto, onComprar, quantidadeNoCarrinho = 0 }) => {
@@ -27,9 +28,13 @@ const ProdutoCard = ({ produto, onComprar, quantidadeNoCarrinho = 0 }) => {
       {esgotado && (
         <span className="produto-card__selo-esgotado">Esgotado</span>
       )}
-      <img src={produto.image} alt={produto.name} />
+      <Link className="produto-card__detalhe" to={`/produtos/${produto.id}`} aria-label={`Ver detalhes de ${produto.name}`}>
+        <img src={produto.image} alt={produto.name} />
+      </Link>
       <div className="produto-info">
-        <h2>{produto.name}</h2>
+        <h2>
+          <Link to={`/produtos/${produto.id}`}>{produto.name}</Link>
+        </h2>
         <p>{produto.description}</p>
 
         <div className="precos">
