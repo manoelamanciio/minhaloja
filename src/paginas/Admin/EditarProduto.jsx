@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./estilos.css";
+import { converterParaCentavos, validarProduto } from "./validacao";
 
 const API_URL = "http://localhost:3000/products";
 
@@ -11,6 +12,7 @@ function EditarProduto() {
   const [carregando, setCarregando] = useState(true);
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState("");
+  const [errosCampos, setErrosCampos] = useState({});
   const [tentativa, setTentativa] = useState(0);
 
   useEffect(() => {
@@ -53,28 +55,23 @@ function EditarProduto() {
   const atualizarCampo = (evento) => {
     const { name, value } = evento.target;
     setFormulario((atual) => ({ ...atual, [name]: value }));
+    setErrosCampos((atuais) => ({ ...atuais, [name]: undefined }));
   };
 
   const salvarProduto = async (evento) => {
     evento.preventDefault();
     setErro("");
 
-    const preco = Math.round(Number(formulario.price.replace(",", ".")) * 100);
-    const estoque = Number.parseInt(formulario.stock, 10);
+    const { erros, valido } = validarProduto(formulario);
+    setErrosCampos(erros);
+    if (!valido) return;
+
+    const preco = converterParaCentavos(formulario.price);
+    const estoque = Number(formulario.stock);
     const promoTexto = formulario.promoPrice.trim();
     const precoPromocional = promoTexto
-      ? Math.round(Number(promoTexto.replace(",", ".")) * 100)
+      ? converterParaCentavos(promoTexto)
       : null;
-
-    if (!formulario.name.trim() || !Number.isFinite(preco) || preco < 0 ||
-        !Number.isInteger(estoque) || estoque < 0) {
-      setErro("Preencha nome, preço válido e estoque válido.");
-      return;
-    }
-    if (precoPromocional !== null && (!Number.isFinite(precoPromocional) || precoPromocional < 0)) {
-      setErro("Informe um preço promocional válido.");
-      return;
-    }
 
     const alteracoes = {
       name: formulario.name.trim(),
@@ -125,10 +122,11 @@ function EditarProduto() {
       )}
 
       {!carregando && formulario && (
-        <form className="produto-formulario" onSubmit={salvarProduto}>
+        <form className="produto-formulario" onSubmit={salvarProduto} noValidate>
           <label>
             Nome
-            <input name="name" value={formulario.name} onChange={atualizarCampo} required />
+            <input name="name" value={formulario.name} onChange={atualizarCampo} aria-invalid={Boolean(errosCampos.name)} aria-describedby="erro-nome" />
+            {errosCampos.name && <span id="erro-nome" className="produto-formulario__erro-campo">{errosCampos.name}</span>}
           </label>
           <label>
             Categoria
@@ -141,20 +139,24 @@ function EditarProduto() {
           <div className="produto-formulario__linha">
             <label>
               Preço (R$)
-              <input name="price" type="number" min="0" step="0.01" value={formulario.price} onChange={atualizarCampo} required />
+              <input name="price" type="number" step="0.01" value={formulario.price} onChange={atualizarCampo} aria-invalid={Boolean(errosCampos.price)} aria-describedby="erro-preco" />
+              {errosCampos.price && <span id="erro-preco" className="produto-formulario__erro-campo">{errosCampos.price}</span>}
             </label>
             <label>
               Preço promocional (R$)
-              <input name="promoPrice" type="number" min="0" step="0.01" value={formulario.promoPrice} onChange={atualizarCampo} />
+              <input name="promoPrice" type="number" step="0.01" value={formulario.promoPrice} onChange={atualizarCampo} aria-invalid={Boolean(errosCampos.promoPrice)} aria-describedby="erro-promocao" />
+              {errosCampos.promoPrice && <span id="erro-promocao" className="produto-formulario__erro-campo">{errosCampos.promoPrice}</span>}
             </label>
             <label>
               Estoque
-              <input name="stock" type="number" min="0" step="1" value={formulario.stock} onChange={atualizarCampo} required />
+              <input name="stock" type="number" step="1" value={formulario.stock} onChange={atualizarCampo} aria-invalid={Boolean(errosCampos.stock)} aria-describedby="erro-estoque" />
+              {errosCampos.stock && <span id="erro-estoque" className="produto-formulario__erro-campo">{errosCampos.stock}</span>}
             </label>
           </div>
           <label>
             URL da imagem
-            <input name="image" type="url" value={formulario.image} onChange={atualizarCampo} />
+            <input name="image" type="url" value={formulario.image} onChange={atualizarCampo} aria-invalid={Boolean(errosCampos.image)} aria-describedby="erro-imagem" />
+            {errosCampos.image && <span id="erro-imagem" className="produto-formulario__erro-campo">{errosCampos.image}</span>}
           </label>
 
           {erro && <p className="mensagem erro">{erro}</p>}

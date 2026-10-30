@@ -70,6 +70,16 @@
   background: transparent;
   cursor: pointer;
 }
+
+.produto-formulario__erro-campo {
+  color: #dc2626;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.produto-formulario input[aria-invalid="true"] {
+  border-color: #dc2626;
+}
 
 .admin-produtos__acoes button:disabled {
   cursor: wait;

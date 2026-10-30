@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./estilos.css";
+import { converterParaCentavos, validarProduto } from "./validacao";
 
 const API_URL = "http://localhost:3000/products";
 
@@ -19,33 +20,28 @@ function NovoProduto() {
   const [formulario, setFormulario] = useState(estadoInicial);
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState("");
+  const [errosCampos, setErrosCampos] = useState({});
 
   const atualizarCampo = (evento) => {
     const { name, value } = evento.target;
     setFormulario((atual) => ({ ...atual, [name]: value }));
+    setErrosCampos((atuais) => ({ ...atuais, [name]: undefined }));
   };
 
   const salvarProduto = async (evento) => {
     evento.preventDefault();
     setErro("");
 
-    const preco = Math.round(Number(formulario.price.replace(",", ".")) * 100);
+    const { erros, valido } = validarProduto(formulario);
+    setErrosCampos(erros);
+    if (!valido) return;
+
+    const preco = converterParaCentavos(formulario.price);
     const precoPromocionalTexto = formulario.promoPrice.trim();
     const precoPromocional = precoPromocionalTexto
-      ? Math.round(Number(precoPromocionalTexto.replace(",", ".")) * 100)
+      ? converterParaCentavos(precoPromocionalTexto)
       : undefined;
-    const estoque = Number.parseInt(formulario.stock, 10);
-
-    if (!formulario.name.trim() || !Number.isFinite(preco) || preco < 0 ||
-        !Number.isInteger(estoque) || estoque < 0) {
-      setErro("Preencha nome, preço válido e estoque válido.");
-      return;
-    }
-
-    if (precoPromocional !== undefined && (!Number.isFinite(precoPromocional) || precoPromocional < 0)) {
-      setErro("Informe um preço promocional válido.");
-      return;
-    }
+    const estoque = Number(formulario.stock);
 
     const produto = {
       name: formulario.name.trim(),
@@ -89,15 +85,17 @@ function NovoProduto() {
         </Link>
       </div>
 
-      <form className="produto-formulario" onSubmit={salvarProduto}>
+      <form className="produto-formulario" onSubmit={salvarProduto} noValidate>
         <label>
           Nome
           <input
             name="name"
             value={formulario.name}
             onChange={atualizarCampo}
-            required
+            aria-invalid={Boolean(errosCampos.name)}
+            aria-describedby="erro-nome"
           />
+          {errosCampos.name && <span id="erro-nome" className="produto-formulario__erro-campo">{errosCampos.name}</span>}
         </label>
 
         <label>
@@ -129,8 +127,10 @@ function NovoProduto() {
               step="0.01"
               value={formulario.price}
               onChange={atualizarCampo}
-              required
+              aria-invalid={Boolean(errosCampos.price)}
+              aria-describedby="erro-preco"
             />
+            {errosCampos.price && <span id="erro-preco" className="produto-formulario__erro-campo">{errosCampos.price}</span>}
           </label>
 
           <label>
@@ -142,7 +142,10 @@ function NovoProduto() {
               step="0.01"
               value={formulario.promoPrice}
               onChange={atualizarCampo}
+              aria-invalid={Boolean(errosCampos.promoPrice)}
+              aria-describedby="erro-promocao"
             />
+            {errosCampos.promoPrice && <span id="erro-promocao" className="produto-formulario__erro-campo">{errosCampos.promoPrice}</span>}
           </label>
 
           <label>
@@ -154,8 +157,10 @@ function NovoProduto() {
               step="1"
               value={formulario.stock}
               onChange={atualizarCampo}
-              required
+              aria-invalid={Boolean(errosCampos.stock)}
+              aria-describedby="erro-estoque"
             />
+            {errosCampos.stock && <span id="erro-estoque" className="produto-formulario__erro-campo">{errosCampos.stock}</span>}
           </label>
         </div>
 
@@ -166,7 +171,10 @@ function NovoProduto() {
             type="url"
             value={formulario.image}
             onChange={atualizarCampo}
+            aria-invalid={Boolean(errosCampos.image)}
+            aria-describedby="erro-imagem"
           />
+          {errosCampos.image && <span id="erro-imagem" className="produto-formulario__erro-campo">{errosCampos.image}</span>}
         </label>
 
         {erro && <p className="mensagem erro">{erro}</p>}
