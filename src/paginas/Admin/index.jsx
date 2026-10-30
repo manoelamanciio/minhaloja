@@ -16,6 +16,7 @@ function Admin() {
   const [erro, setErro] = useState("");
   const [tentativa, setTentativa] = useState(0);
   const [removendoId, setRemovendoId] = useState(null);
+  const [erroExclusao, setErroExclusao] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -45,19 +46,23 @@ function Admin() {
   }, [tentativa]);
 
   const removerProduto = async (produto) => {
-    if (!window.confirm(`Remover "${produto.name}"?`)) return;
+    const confirmou = window.confirm(
+      `Tem certeza que deseja excluir "${produto.name}"?`,
+    );
+    if (!confirmou) return;
 
+    setErroExclusao("");
     setRemovendoId(produto.id);
     try {
       const resposta = await fetch(`${API_URL}/${produto.id}`, {
         method: "DELETE",
       });
       if (!resposta.ok) {
-        throw new Error("Não foi possível remover o produto.");
+        throw new Error("Não foi possível excluir o produto.");
       }
       setProdutos((atuais) => atuais.filter((item) => item.id !== produto.id));
     } catch {
-      setErro("Não foi possível remover o produto.");
+      setErroExclusao("Não foi possível excluir o produto. Tente novamente.");
     } finally {
       setRemovendoId(null);
     }
@@ -89,6 +94,9 @@ function Admin() {
 
       {!carregando && !erro && (
         <div className="admin-produtos__tabela-wrapper">
+          {erroExclusao && (
+            <p className="mensagem erro">{erroExclusao}</p>
+          )}
           <table className="admin-produtos__tabela">
             <thead>
               <tr>
@@ -111,6 +119,7 @@ function Admin() {
                       <Link to={`/admin/${produto.id}/editar`}>Editar</Link>
                       <button
                         type="button"
+                        aria-label={`Excluir ${produto.name}`}
                         onClick={() => removerProduto(produto)}
                         disabled={removendoId === produto.id}
                       >
