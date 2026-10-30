@@ -24,14 +24,18 @@ function Carrinho({ itens = [], onIncrementar, onDiminuir, onRemover }) {
       const quantidade = Number(item.quantidade) || 0;
       const precoCentavos = Number(item.price) || 0;
       const subtotalCentavos = precoCentavos * quantidade;
-      return `${item.name} — ${quantidade} x ${formatarPreco(precoCentavos)} — Subtotal: ${formatarPreco(subtotalCentavos)}`;
+      return [
+        `Item: ${item.name}`,
+        `Quantidade: ${quantidade}`,
+        `Preço unitário: ${formatarPreco(precoCentavos)}`,
+        `Subtotal: ${formatarPreco(subtotalCentavos)}`,
+      ].join("\n");
     });
 
     const mensagem = [
       "Olá! Gostaria de finalizar meu pedido:",
       "",
-      ...linhasPedido,
-      "",
+      ...linhasPedido.flatMap((linha) => [linha, ""]),
       `Total de itens: ${totalItens}`,
       `Total: ${formatarPreco(totalCentavos)}`,
     ].join("\n");
