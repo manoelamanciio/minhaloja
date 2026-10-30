@@ -34,6 +34,22 @@
   color: #dc2626;
 }
 
+.mensagem__tentar-novamente {
+  display: block;
+  margin: 0 auto;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 6px;
+  color: #ffffff;
+  background-color: #2563eb;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.mensagem__tentar-novamente:hover {
+  background-color: #1d4ed8;
+}
+
 /* Celulares: 1 coluna */
 @media (min-width: 480px) {
   .loja {

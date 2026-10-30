@@ -10,34 +10,57 @@ function Loja({ onComprar, itensCarrinho = [] }) {
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
+  const [tentativa, setTentativa] = useState(0);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function buscarProdutos() {
+      setCarregando(true);
+      setErro("");
+
       try {
-        const resposta = await fetch(API_URL);
+        const resposta = await fetch(API_URL, { signal: controller.signal });
 
         if (!resposta.ok) {
           throw new Error("Não foi possível carregar os produtos.");
         }
 
         const dados = await resposta.json();
-        setProdutos(dados);
+        setProdutos(Array.isArray(dados) ? dados : []);
       } catch (error) {
-        setErro(error.message);
+        if (error.name !== "AbortError") {
+          setErro("Não foi possível carregar os produtos.");
+        }
       } finally {
-        setCarregando(false);
+        if (!controller.signal.aborted) {
+          setCarregando(false);
+        }
       }
     }
 
     buscarProdutos();
-  }, []);
+
+    return () => controller.abort();
+  }, [tentativa]);
 
   if (carregando) {
-    return <p className="mensagem">Carregando produtos...</p>;
+    return <p className="mensagem">Carregando...</p>;
   }
 
   if (erro) {
-    return <p className="mensagem erro">{erro}</p>;
+    return (
+      <main className="loja">
+        <p className="mensagem erro">{erro}</p>
+        <button
+          className="mensagem__tentar-novamente"
+          type="button"
+          onClick={() => setTentativa((valorAtual) => valorAtual + 1)}
+        >
+          Tentar novamente
+        </button>
+      </main>
+    );
   }
 
   return (
