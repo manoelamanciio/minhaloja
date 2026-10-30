@@ -1,0 +1,130 @@
+
+.admin-produtos {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.admin-produtos__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.admin-produtos__cabecalho h1 {
+  margin: 0;
+}
+
+.admin-produtos__novo,
+.admin-produtos__tentar {
+  border: 0;
+  border-radius: 6px;
+  padding: 10px 16px;
+  color: #fff;
+  background: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.admin-produtos__erro {
+  text-align: center;
+}
+
+.admin-produtos__tabela-wrapper {
+  overflow-x: auto;
+}
+
+.admin-produtos__tabela {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.admin-produtos__tabela th,
+.admin-produtos__tabela td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.admin-produtos__tabela th {
+  background: #f3f4f6;
+}
+
+.admin-produtos__acoes {
+  display: flex;
+  gap: 12px;
+}
+
+.admin-produtos__acoes a {
+  color: #2563eb;
+}
+
+.admin-produtos__acoes button {
+  border: 0;
+  padding: 0;
+  color: #dc2626;
+  background: transparent;
+  cursor: pointer;
+}
+
+.admin-produtos__acoes button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.produto-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.produto-formulario label {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.produto-formulario input,
+.produto-formulario textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.produto-formulario__linha {
+  display: flex;
+  gap: 16px;
+}
+
+.produto-formulario__salvar {
+  align-self: flex-start;
+  border: 0;
+  border-radius: 6px;
+  padding: 11px 16px;
+  color: #fff;
+  background: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.produto-formulario__salvar:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+  .produto-formulario__linha {
+    flex-direction: column;
+  }
+}

@@ -8,6 +8,8 @@ import {
 
 import Loja from './paginas/Loja';
 import Carrinho from './paginas/Carrinho';
+import Admin from './paginas/Admin';
+import NovoProduto from './paginas/Admin/NovoProduto';
 import MenuNavegacao from "./componentes/ProdutoCard/MenuNavegacao";
 import { useState } from "react";
 
@@ -84,6 +86,7 @@ export default function App() {
         <nav>
           <Link to="/">Loja</Link>{" | "}
           <Link to="/carrinho">Carrinho</Link>{" | "}
+          <Link to="/admin">Admin</Link>{" | "}
           <Link to="/admin/novo">Novo produto</Link>
         </nav>
       </header>
@@ -119,11 +122,11 @@ export default function App() {
           }
         />
 
+        {/* Painel administrativo */}
+        <Route path="/admin" element={<Admin />} />
+
         {/* Cadastro de produto */}
-        <Route
-          path="/admin/novo"
-          element={<PaginaProvisoria titulo="Cadastrar produto" />}
-        />
+        <Route path="/admin/novo" element={<NovoProduto />} />
 
         {/* Edição de produto */}
         <Route

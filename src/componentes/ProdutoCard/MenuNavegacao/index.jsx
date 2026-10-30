@@ -25,7 +25,7 @@ function MenuNavegacao({
       {/* Links de navegação */}
       <nav className="menu-links">
         <Link to="/">Loja</Link>
-        <Link to="/admin/novo">Painel</Link>
+        <Link to="/admin">Painel</Link>
       </nav>
 
       {/* Carrinho de compras */}
